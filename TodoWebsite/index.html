@@ -13,6 +13,11 @@
         <script src="scripts/script.js"></script>
     </head>
     <body>
-        <button onclick="callApi()">Click me!</button>
+        <ul data-bind="foreach: todoItems, visible: todoItems().length > 0">
+            <li>
+                <input type="checkbox" data-bind="checked: isComplete">
+                <input type="text" data-bind="value: name, disable: isComplete">
+            </li>
+        </ul>
     </body>
 </html>
