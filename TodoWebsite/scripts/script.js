@@ -3,8 +3,18 @@ $(document).ready(function() {
         // Data
         var self = this;
         self.todoItems = ko.observableArray([]);
+        self.newTodoText = ko.observable();
     
         // Operations
+        self.addTodo = function() {
+            self.todoItems.push(new Todo({ name: this.newTodoText() }));
+            // TODO: Make a POST to the server to add the To do
+            // Q: Post entire todoItems JSON or just the one? Probably just the one
+        };
+        self.removeTodo = function(todoItem) {
+            self.todoItems.remove(todoItem);
+            // TODO: Make a DELETE to the server to remove the To do
+        }
 
         // Load initial data from server
         $.ajax({
