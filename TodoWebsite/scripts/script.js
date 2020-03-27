@@ -48,6 +48,7 @@ $(document).ready(function() {
             //TODO: Swap url for relative url when hosted on same domain
             //url: '/api/TodoItems',
             url: 'https://localhost:44378/api/TodoItems',
+            contentType: 'application/json',
             dataType: 'json',
             success: function (data) {
                 window.console.log('AJAX GET Success: ' + JSON.stringify(data));
