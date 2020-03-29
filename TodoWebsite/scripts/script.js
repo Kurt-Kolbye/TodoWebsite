@@ -12,15 +12,12 @@ $(document).ready(function() {
         self.addTodo = function() {
             
             var newTodo = new Todo({ 
-                name: this.newTodoText(),
+                name: self.newTodoText(),
                 isComplete: false
             });
 
-            // Add new Todo to the list of items
-            self.todoItems.push(newTodo);
-
             var newTodoJSON = ko.toJSON(newTodo);
-
+            
             $.ajax({
                 type: 'POST',
                 //TODO: Swap url for relative url when hosted on same domain
@@ -31,6 +28,10 @@ $(document).ready(function() {
                 data: newTodoJSON,
                 success: function (data) {
                     window.console.log('AJAX POST Success: ' + JSON.stringify(data));
+                    // Set the id returned from the server
+                    newTodo.id(data.id);
+                    // Add new Todo to the list of items                    
+                    self.todoItems.push(newTodo);
                 },
                 error: function (request, error) {
                     alert('Error got hit on POST.');
@@ -41,8 +42,6 @@ $(document).ready(function() {
         };
         self.removeTodo = function(todoItem) {
             
-            self.todoItems.remove(todoItem);
-            // TODO: Make a DELETE to the server to remove the To do
             var deleteUrl = 'https://localhost:44378/api/TodoItems/' + todoItem.id();
 
             $.ajax({
@@ -54,6 +53,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function (data) {
                     window.console.log('AJAX DELETE Success: ' + JSON.stringify(data));
+                    self.todoItems.remove(todoItem);
                 },
                 error: function (request, error) {
                     alert('Error got hit on DELETE.');
