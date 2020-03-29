@@ -1,3 +1,6 @@
+// Created todoListVM as a global variable to perform operations from console
+var todoListVM;
+
 $(document).ready(function() {
     function TodoListVM() {
         // Data
@@ -30,7 +33,6 @@ $(document).ready(function() {
                     window.console.log('AJAX POST Success: ' + JSON.stringify(data));
                 },
                 error: function (request, error) {
-                    debugger;
                     alert('Error got hit on POST.');
                     window.console.log('Error Request: ' + JSON.stringify(request));
                     window.console.log('Error: ' + error);
@@ -38,8 +40,27 @@ $(document).ready(function() {
             });
         };
         self.removeTodo = function(todoItem) {
+            
             self.todoItems.remove(todoItem);
             // TODO: Make a DELETE to the server to remove the To do
+            var deleteUrl = 'https://localhost:44378/api/TodoItems/' + todoItem.id();
+
+            $.ajax({
+                type: 'DELETE',
+                //TODO: Swap url for relative url when hosted on same domain
+                //url: '/api/TodoItems',
+                url: deleteUrl,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (data) {
+                    window.console.log('AJAX DELETE Success: ' + JSON.stringify(data));
+                },
+                error: function (request, error) {
+                    alert('Error got hit on DELETE.');
+                    window.console.log('Error Request: ' + JSON.stringify(request));
+                    window.console.log('Error: ' + error);
+                }
+            });
         }
 
         // Load initial data from server
@@ -66,7 +87,8 @@ $(document).ready(function() {
             }
         });
     };
-    ko.applyBindings(new TodoListVM());
+    todoListVM = new TodoListVM();
+    ko.applyBindings(todoListVM);
 });
 
 // Todo Model
