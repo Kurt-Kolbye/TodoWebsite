@@ -1,37 +1,37 @@
-// Created todoListVM as a global variable to perform operations from console
-var todoListVM;
+// Created labelsListVM as a global variable to perform operations from console
+var labelsListVM;
 
 $(document).ready(function() {
-    function TodoListVM() {
+    function LabelsListVM() {
         // Data
         var self = this;
-        self.todoItems = ko.observableArray([]);
-        self.newTodoText = ko.observable();
+        self.labels = ko.observableArray([]);
+        self.newLabelText = ko.observable();
     
         // Operations
-        self.addTodo = function() {
+        self.addLabel = function() {
             
-            var newTodo = new Todo({ 
-                name: self.newTodoText(),
-                isComplete: false
+            // TODO: Verify data
+            var newLabel = new Label({ 
+                name: self.newLabelText()
             });
 
-            var newTodoJSON = ko.toJSON(newTodo);
+            var newLabelJSON = ko.toJSON(newLabel);
             
             $.ajax({
                 type: 'POST',
                 //TODO: Swap url for relative url when hosted on same domain
-                //url: '/api/TodoItems',
-                url: 'https://localhost:44378/api/TodoItems',
+                //url: '/api/Labels',
+                url: 'https://localhost:44378/api/Labels',
                 contentType: 'application/json',
                 dataType: 'json',
-                data: newTodoJSON,
+                data: newLabelJSON,
                 success: function (data) {
                     window.console.log('AJAX POST Success: ' + JSON.stringify(data));
                     // Set the id returned from the server
-                    newTodo.id(data.id);
-                    // Add new Todo to the list of items                    
-                    self.todoItems.push(newTodo);
+                    newLabel.id(data.id);
+                    // Add new Label to the list of items                    
+                    self.labels.push(newLabel);
                 },
                 error: function (request, error) {
                     alert('Error got hit on POST.');
@@ -40,23 +40,48 @@ $(document).ready(function() {
                 }
             });
         };
-        self.removeTodo = function(todoItem) {
+
+        self.removeLabel = function(label) {
             
-            var deleteUrl = 'https://localhost:44378/api/TodoItems/' + todoItem.id();
+            var deleteUrl = 'https://localhost:44378/api/Labels/' + label.id();
 
             $.ajax({
                 type: 'DELETE',
                 //TODO: Swap url for relative url when hosted on same domain
-                //url: '/api/TodoItems',
+                //url: '/api/Labels/{id}',
                 url: deleteUrl,
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function (data) {
                     window.console.log('AJAX DELETE Success: ' + JSON.stringify(data));
-                    self.todoItems.remove(todoItem);
+                    self.labels.remove(label);
                 },
                 error: function (request, error) {
                     alert('Error got hit on DELETE.');
+                    window.console.log('Error Request: ' + JSON.stringify(request));
+                    window.console.log('Error: ' + error);
+                }
+            });
+        }
+
+        self.updateLabel = function(label) {
+            var updateUrl = 'https://localhost:44378/api/Labels/' + label.id();
+
+            var updatedLabelJSON = ko.toJSON(label);
+
+            $.ajax({
+                type: 'PUT',
+                //TODO: Swap url for relative url when hosted on same domain
+                //url: '/api/Labels/{id}',
+                url: updateUrl,
+                contentType: 'application/json',
+                dataType: 'json',
+                data: updatedLabelJSON,
+                success: function () {
+                    window.console.log('AJAX PUT Success!');
+                },
+                error: function (request, error) {
+                    alert('Error got hit on PUT.');
                     window.console.log('Error Request: ' + JSON.stringify(request));
                     window.console.log('Error: ' + error);
                 }
@@ -67,18 +92,18 @@ $(document).ready(function() {
         $.ajax({
             type: 'GET',
             //TODO: Swap url for relative url when hosted on same domain
-            //url: '/api/TodoItems',
-            url: 'https://localhost:44378/api/TodoItems',
+            //url: '/api/Labels',
+            url: 'https://localhost:44378/api/Labels',
             contentType: 'application/json',
             dataType: 'json',
             success: function (data) {
                 window.console.log('AJAX GET Success: ' + JSON.stringify(data));
-                // Convert the data into Todo objects
-                var mappedTodos = $.map(data, function(item) {
-                    return new Todo(item);
+                // Convert the data into Label objects
+                var mappedLabels = $.map(data, function(item) {
+                    return new Label(item);
                 });
-                // Add Todo objects to array
-                self.todoItems(mappedTodos);
+                // Add Label objects to array
+                self.labels(mappedLabels);
             },
             error: function (request, error) {
                 alert('Error got hit on GET.');
@@ -87,12 +112,13 @@ $(document).ready(function() {
             }
         });
     };
-    todoListVM = new TodoListVM();
-    ko.applyBindings(todoListVM);
+    labelsListVM = new LabelsListVM();
+    ko.applyBindings(labelsListVM);
 });
 
-// Todo Model
-function Todo(data) {
+// Label Model
+// TODO: Verify data
+function Label(data) {
     this.id = ko.observable(data.id);
     this.name = ko.observable(data.name);
     this.isComplete = ko.observable(data.isComplete);
