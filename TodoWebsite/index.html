@@ -10,13 +10,22 @@
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.5.0.js"></script>
-        <script src="scripts/script.js"></script>
+        <script src="scripts/todoList.js"></script>
     </head>
     <body>
+        <!-- <a href="labels.html">Labels</a> -->
+        <form data-bind="submit: addTodo">
+            <label for="newTodoTextInput">Add Todo:</label>
+            <input type="text" id="newToDoTextInput" data-bind="value: newTodoText" placeholder="What needs to be done?"/>
+            <button type="submit">Add</button>
+        </form>
+
         <ul data-bind="foreach: todoItems, visible: todoItems().length > 0">
             <li>
                 <input type="checkbox" data-bind="checked: isComplete">
                 <input type="text" data-bind="value: name, disable: isComplete">
+                <a href="#" data-bind="click: $parent.updateTodo">Update</a>
+                <a href="#" data-bind="click: $parent.removeTodo">Delete</a>
             </li>
         </ul>
     </body>
