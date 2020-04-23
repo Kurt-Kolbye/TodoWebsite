@@ -11,7 +11,6 @@ $(document).ready(function() {
         // Operations
         self.addLabel = function() {
             
-            // TODO: Verify data
             var newLabel = new Label({ 
                 name: self.newLabelText()
             });
@@ -32,6 +31,8 @@ $(document).ready(function() {
                     newLabel.id(data.id);
                     // Add new Label to the list of items                    
                     self.labels.push(newLabel);
+                    // Reset input
+                    self.newLabelText("");
                 },
                 error: function (request, error) {
                     alert('Error got hit on POST.');
@@ -117,9 +118,7 @@ $(document).ready(function() {
 });
 
 // Label Model
-// TODO: Verify data
 function Label(data) {
     this.id = ko.observable(data.id);
     this.name = ko.observable(data.name);
-    this.isComplete = ko.observable(data.isComplete);
 };

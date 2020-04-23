@@ -32,6 +32,8 @@ $(document).ready(function() {
                     newTodo.id(data.id);
                     // Add new Todo to the list of items                    
                     self.todoItems.push(newTodo);
+                    // Reset input
+                    self.newTodoText("");
                 },
                 error: function (request, error) {
                     alert('Error got hit on POST.');
