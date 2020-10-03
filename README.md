@@ -14,4 +14,4 @@ The project gave me experience and insights into:
 
 ## Summary
 
-Overall, this project was good for overcoming CORS policy challenges and experiencing more [Knockout](https://knockoutjs.com/).
+Overall, this project was good for overcoming CORS policy challenges and getting more familiar with [Knockout](https://knockoutjs.com/).
