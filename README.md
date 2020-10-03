@@ -9,7 +9,7 @@ This project is a minimal front-end application using HTML, JavaScript (with som
 The project gave me experience and insights into:
 
 * accessing an API from a website decoupled from the actual API project,
-* how CORS policies work,
+* how to overcome CORS policy challenges,
 * and using [Knockout](https://knockoutjs.com/) to organize operations and display data.
 
 ## Summary
