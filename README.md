@@ -8,7 +8,7 @@ This project is a minimal front-end application using HTML, JavaScript (with som
 ## Experience Gained
 The project gave me experience and insights into:
 
-* accessing an API from a website decoupled from the API,
+* accessing an API from a website decoupled from the actual API project,
 * how CORS policies work,
 * and using [Knockout](https://knockoutjs.com/) to organize operations and display data.
 
